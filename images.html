@@ -1,0 +1,52 @@
+
+<html>
+    <head>
+        <title>Finstagram</title>
+    </head>
+    <body>
+        <h1>Image Gallery</h1>
+        <div>
+            {% for image in photos %}
+            <img src="/image/{{image.filepath}}" width="300"/>
+            <form action="/like" method="post">
+                <button type="submit" name="photoID" value="{{image.photoID}}">Like</button>
+                <br/>
+                <input type="text" name="rating" placeholder="rate out of 5" required/>
+            </form>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            {%endwith%}
+            <h3>Posted by: {{image.fname}} {{image.lname}},  PhotoID: {{image.photoID}} </h3>
+            <h6>{{image.timestamp}}</h6>
+                {% if image.caption %}
+                    <h3> Caption: {{image.caption}} </h3>
+                {% endif %}
+            <h3> Tagged Users: </h3>
+            <ul>
+                {% for taggedimage in taggedUsers %}
+                    {% if taggedimage.photoID == image.photoID %}
+                        {% if taggedimage.tagstatus %}
+                            <li> {{taggedimage.fname}} , {{ taggedimage.lname }} </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <h3>Liked By: </h3>
+            <ul>
+                {% for liker in likes %}
+                    {% if liker.photoID == image.photoID %}
+                    <li> {{liker.username}} , {{liker.rating}} </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endfor %}
+
+
+        <a href="/">Go back</a>
+    </div>
+    </body>
+</html>

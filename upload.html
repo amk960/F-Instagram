@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Image Upload</title>
+    </head>
+    <body>
+        <h1>Upload an Image!</h1>
+        <div>
+            <form action="/uploadImage" method="post" enctype="multipart/form-data">
+                <input type="file" name="imageToUpload" accept="image/*">
+                <br/>
+                <input type="text" name="caption" placeholder="caption" >
+                <br/>
+                All Followers:<br/>
+                <input type="checkbox" id="check" onClick="showGroups()" name ="visible" value ="true"> <br/>
+				<!-- Display all groups -->
+				<div id="groups">
+					Share with groups: <br/>
+					{% for group in groups %}
+					<!-- loop index is group number starting from 1 -->
+					<input type="checkbox" name="{{loop.index}}" value={{group.groupName}}>{{group.groupName}}<br/>
+					{% endfor %}
+				</div>
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+        {% if message %}
+            {{ message }}
+        {% endif %}
+        <br/>
+        <a href="/">Go back</a>
+    </body>
+    <script>
+    function showGroups() {
+      // Get the allFollowers
+      var allFollowers = document.getElementById("check");
+      // Get the groupsData
+      var groupsData = document.getElementById("groups");
+      // If the allFollowers is not checked, display the group options
+      if (allFollowers.checked == false){
+        groupsData.style.display = "block";
+      } else {
+        groupsData.style.display = "none";
+      }
+    }
+    </script>
+</html>
