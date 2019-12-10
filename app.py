@@ -40,7 +40,13 @@ def index():
 @app.route("/home")
 @login_required
 def home():
-    return render_template("home.html", username=session["username"])
+    #display the bio you entered at registeration time
+    user = session["username"]
+    cursor = connection.cursor()
+    closeFriendsGroupNameQuery = "SELECT bio FROM person WHERE username=%s"
+    cursor.execute(closeFriendsGroupNameQuery, (user))
+    bio = cursor.fetchone()
+    return render_template("home.html", username=user, bio=bio['bio'])
 
 
 @app.route("/upload", methods=["GET"])
@@ -464,11 +470,11 @@ def registerAuth():
         hashedPassword = hashlib.sha256(plaintextPasword.encode("utf-8")).hexdigest()
         firstName = requestData["fname"]
         lastName = requestData["lname"]
-
+        bio = requestData["bio"]
         try:
             with connection.cursor() as cursor:
-                query = "INSERT INTO person (username, password, fname, lname) VALUES (%s, %s, %s, %s)"
-                cursor.execute(query, (username, hashedPassword, firstName, lastName))
+                query = "INSERT INTO person (username, password, fname, lname, bio) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(query, (username, hashedPassword, firstName, lastName, bio))
         except pymysql.err.IntegrityError:
             error = "%s is already taken." % (username)
             return render_template('index.html', error=error)
