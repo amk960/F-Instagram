@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Your Friend Groups</title>
+    </head>
+    <body>
+        <h1>Create a Friends Group</h1>
+        <div>
+            <form action="/friendGroups" method="post">
+                <input type="text" name="groupNameC" placeholder="Enter a Group Name" required/>
+                <input type="text" name="description" placeholder="Group Description" >
+                <br/>
+                <input type="submit" value="Create">
+            </form>
+        </div>
+        {% if groupCreated %}
+            {{groupCreated}}
+        {% endif %}
+        <div>
+            <form action="/addFriend" method="post">
+        <h1>Your Groups</h1>
+        <h3>Select a Group</h3>
+                {% for group in groups %}
+                    <input type="radio" name="groupName" value = "{{group.groupName}}" required/> {{group.groupName}}<br/>
+                {% endfor %}
+                <input type="text" name="friend" placeholder="Enter a User to Add" required/>
+                <input type="submit" value="AddUser">
+            </form>
+        </div>
+        {% if userAdded %}
+            {{ userAdded }}<br/>
+        {% endif %}
+    <a href="/">Go back</a>
+    </body>
+</html>
