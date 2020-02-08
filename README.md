@@ -5,7 +5,7 @@ Python Flask for backend.
 Javascript, HTML for front-end.
 php.myAdmin for maintaining the database.
 mySQL for modifying the database.
-Functionalities of he social media webpage include:
+Functionalities of the social media webpage include:
   Registering a user.
   Logging in.
   Following/Unfollowing.
